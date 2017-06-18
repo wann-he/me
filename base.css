@@ -2,8 +2,9 @@ span{
    color:red;
    font-size:50px;
 }
-body{
-	background: url(index.jpg) no-repeat center 0;
+body{	
+	background: url(index.jpg) no-repeat center center fixed; 	 
+    ##background-size: cover;
 } 
 a:hover{
 	color:blue;

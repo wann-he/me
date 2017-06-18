@@ -1,19 +1,67 @@
 <!DOCTYPE HTML>
+<link href="//fonts.gdgdocs.org/css?family=Lobster" rel="stylesheet" type="text/css">
 <html>
+<div class="container-fluid">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>王八蛋你来了</title>
 <link href="base.css" rel="stylesheet" type="text/css">
+<link href="input.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<p><span>你这个王八蛋</span><span>hentai 学挖掘机找蓝翔<span><br></br>
-<span>祝你女朋友永远都是<a>充气的。</a><br></br>
-祝你男朋友永远都是电动的。<br></br>
+<div>
+
+<span class="input input--haruki">
+    <input class="input__field input__field--haruki" type="text" id="input-1" />
+	<button id="echo" onclick="echo();">点我</button>
+    <label class="input__label input__label--haruki" for="input-1">
+	
+        <span class="input__label-content input__label-content--haruki"></span>
+    </label>
+	
+</span>
+</div>
+<p><span>你这个王八蛋</span><span>学挖掘机找蓝翔<span><br></br>
+<span>女朋友永远都是<a>充气的。</a><br></br>
+男朋友永远都是电动的。<br></br>
 <span>
 </p>
 <div>
     <img src="index.jpg" style="width: 200px">
 </div>
+
+<!-- 
 <audio autoplay="autoplay"><source src="South Side $uicide.mp3" type="audio/mpeg"/></audio>
+-->
+
+<!-- Mainly scripts -->
+<script src="assets/js/jquery-2.1.1.min.js"></script>
+<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.7.0/jquery.jspanel.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.7.0/jquery.jspanel-compiled.min.js"></script>
+ <script language="javascript" type="text/javascript">
+ $(
+	function(){
+		  $('input-1').bind('input propertychange', function(){
+		  alert("ni");
+		  });
+	}
+ );
+function echo() {
+            $.jsPanel({
+                    template: jsPanel.tplContentOnly,
+                    autoclose: 10000,
+                    paneltype: 'hint',
+                    position: 'right-top -5 5 DOWN',
+                    theme: 'pink filledlight',
+                    border: '2px solid',
+                    contentSize: '400 50',
+                    show: 'animated slideInUp',
+                    content:  "<div><h2>"+'sb说:'+$("#input-1").val()+"</h2></div>",
+            });
+        }
+</script>
 	</body>
+</div>
+
 </html>

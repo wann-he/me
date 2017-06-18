@@ -1,0 +1,172 @@
+﻿<!DOCTYPE HTML>
+<meta charset="utf-8" /> 
+<html>
+<head>
+    <title>WebSocket Test</title>
+    <style type="text/css">
+        #connect-container {
+            float: left;
+            width: 400px
+        }
+
+        #connect-container div {
+            padding: 5px;
+        }
+
+        #console-container {
+            float: left;
+            margin-left: 15px;
+            width: 400px;
+        }
+
+        #console {
+            border: 1px solid #CCCCCC;
+            border-right-color: #999999;
+            border-bottom-color: #999999;
+            height: 170px;
+            overflow-y: scroll;
+            padding: 5px;
+            width: 100%;
+        }
+
+        #console p {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+<!-- Mainly scripts -->
+<script src="assets/js/jquery-2.1.1.min.js"></script>
+<script src="assets/js/bootstrap.min.js?v=3.4.0"></script>
+<script src="assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="assets/js/plugins/jeditable/jquery.jeditable.js"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="assets/js/hplus.js?v=2.2.0"></script>
+<script src="assets/js/plugins/pace/pace.min.js"></script>
+<!-- layer javascript -->
+<script src="assets/js/plugins/layer/layer.js"></script>
+<script src="assets/js/plugins/layer/laypage.js"></script>
+<script src="assets/js/plugins/echarts/echarts-all.js"></script>
+<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.7.0/jquery.jspanel.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.7.0/jquery.jspanel-compiled.min.js"></script>
+ <script language="javascript" type="text/javascript">
+    <script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+    <script type="text/javascript">
+        var ws = null;
+        var url = null;
+        var transports = [];
+        function setConnected(connected) {
+            document.getElementById('connect').disabled = connected;
+            document.getElementById('disconnect').disabled = !connected;
+            document.getElementById('echo').disabled = !connected;
+        }
+
+        function connect() {
+            ws = (url.indexOf('sockjs') != -1) ?
+                    new SockJS(url, undefined, {protocols_whitelist: transports}) : new WebSocket(url);
+
+            ws.onopen = function () {
+                setConnected(true);
+                log('Info: 建立连接.');
+            };
+            ws.onmessage = function (event) {
+                log('Received: ' + event.data);
+				$.jsPanel({
+                    template: jsPanel.tplContentOnly,
+                    autoclose: 10000,
+                    paneltype: 'hint',
+                    position: 'right-top -5 5 DOWN',
+                    theme: 'white filledlight',
+                    border: '2px solid',
+                    contentSize: '400 50',
+                    show: 'animated slideInUp',
+                    content:  "<div><h4>"+event.data+"</h4></div>",
+                });
+            };
+            ws.onclose = function (event) {
+                setConnected(false);
+                log('Info: 连接关闭.');
+                log(event);
+            };
+        }
+
+        function disconnect() {
+            if (ws != null) {
+                ws.close();
+                ws = null;
+            }
+            setConnected(false);
+        }
+
+        function echo() {
+            if (ws != null) {
+                var message = document.getElementById('message').value;
+                log('send: ' + message);
+                ws.send(message);
+            } else {
+                alert('未建立连接.');
+            }
+        }
+
+        function updateUrl(urlPath) {
+            if (urlPath.indexOf('sockjs') != -1) {
+                url = urlPath;
+                document.getElementById('sockJsTransportSelect').style.visibility = 'visible';
+            }
+            else {
+                if (window.location.protocol == 'http:') {
+                    url = 'ws://' + 'echo.websocket.org' + urlPath;
+                } else {
+                    url = 'wss://' + 'echo.websocket.org' + urlPath;
+                }
+                document.getElementById('sockJsTransportSelect').style.visibility = 'hidden';
+            }
+        }
+
+        function updateTransport(transport) {
+            alert(transport);
+            transports = (transport == 'all') ? [] : [transport];
+        }
+
+        function log(message) {
+            var console = document.getElementById('console');
+            var p = document.createElement('p');
+            p.style.wordWrap = 'break-word';
+            p.appendChild(document.createTextNode(message));
+            console.appendChild(p);
+            while (console.childNodes.length > 25) {
+                console.removeChild(console.firstChild);
+            }
+            console.scrollTop = console.scrollHeight;
+        }
+    </script>
+</head>
+<body>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websockets
+    rely on Javascript being enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div>
+    <div id="connect-container">
+        <input id="radio1" type="radio" name="group1" onclick="updateUrl('');">
+        <label for="radio1">W3C WebSocket</label>
+        <br>
+        <div>
+            <button id="connect" onclick="connect();">连接</button>
+            <button id="disconnect" disabled="disabled" onclick="disconnect();">断开</button>
+        </div>
+        <div>
+            <textarea id="message" style="width: 350px" placeholder="这里输入消息哦"></textarea>
+        </div>
+        <div>
+            <button id="echo" onclick="echo();" disabled="disabled">Echo message</button>
+        </div>
+    </div>
+    <div id="console-container">
+        <div id="console"></div>
+    </div>
+</div>
+</body>
+</html>
