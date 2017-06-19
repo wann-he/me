@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<link href="//fonts.gdgdocs.org/css?family=Lobster" rel="stylesheet" type="text/css">
+
 <html>
 <div class="container-fluid">
 <head>
@@ -7,29 +7,25 @@
 <title>王八蛋你来了</title>
 <link href="base.css" rel="stylesheet" type="text/css">
 <link href="input.css" rel="stylesheet" type="text/css">
+<link href="assets/css/bootstrap.min.css?v=3.4.0" rel="stylesheet">
 </head>
 <body>
 <div>
 
 <span class="input input--haruki">
-    <input class="input__field input__field--haruki" type="text" id="input-1" />
-	<button id="echo" onclick="echo();">点我</button>
+    <input class="input__field input__field--haruki" type="text" id="input-1" style="background-color:black;color:pink"/>
+	<button id="echo" onclick="echo();" class="btn" style="background-color:black;color:pink">Click</button>
     <label class="input__label input__label--haruki" for="input-1">
-	
-        <span class="input__label-content input__label-content--haruki"></span>
+       <span class="input__label-content input__label-content--haruki"></span>
     </label>
 	
 </span>
 </div>
-<p><span>你这个王八蛋</span><span>学挖掘机找蓝翔<span><br></br>
-<span>女朋友永远都是<a>充气的。</a><br></br>
-男朋友永远都是电动的。<br></br>
+<p><span style="color:gray">王八蛋</span><span>学挖掘机找蓝翔<span><br></br>
+<span>女朋友是<a>充气的。</a><br></br>
+男朋友是电动的。<br></br>
 <span>
 </p>
-<div>
-    <img src="index.jpg" style="width: 200px">
-</div>
-
 <!-- 
 <audio autoplay="autoplay"><source src="South Side $uicide.mp3" type="audio/mpeg"/></audio>
 -->
@@ -57,7 +53,7 @@ function echo() {
                     border: '2px solid',
                     contentSize: '400 50',
                     show: 'animated slideInUp',
-                    content:  "<div><h2>"+'sb说:'+$("#input-1").val()+"</h2></div>",
+                    content:  "<div><h2>"+'你说:'+$("#input-1").val()+"</h2></div>",
             });
         }
 </script>
